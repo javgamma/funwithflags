@@ -1,37 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import CardFlag from './CardFlag';
+
+
 
 const FlagsList = () => {
-    const [flagsData, setFlagsData] = useState([]);
-  
-  
-    const getFlagsData = async () => {
-      try {
-        const response = await fetch("https://restcountries.com/v3.1/all");
-        const data = await response.json();
-        setFlagsData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-    
-    //Aqui debemos llamar a la funcion y colocarle un array vacio como segundo parametro
-    useEffect(() => {
-      getFlagsData();
-    }, [])
-    
-    console.log(flagsData);
-    
+  const [flagsData, setFlagsData] = useState([]);
 
+  const getFlagsData = async () => {
+    try {
+      const response = await fetch("https://restcountries.com/v3.1/all");
+      console.log(response);
+      const data = await response.json();
+      console.log(data);
+      setFlagsData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    getFlagsData();
+  }, []);
 
   return (
-    <div>
-       {flagsData.map((flag, index) => {
-        return <Card key={index} character={item}/>;
-      })}
+    <div className="flex flex-wrap justify-center">
+      {flagsData.map((flag, i) => (
+        <CardFlag key={i} flag={flag} />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default FlagsList
+export default FlagsList;
+
